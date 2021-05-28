@@ -35,7 +35,7 @@ if __name__ == '__main__':
 
     response = None
     try:
-        response = myclient1.myrequest(RequestMethod.GET.value,headers=myheaders, url=myurl+myurl_resc_module, dict_myparam=dict_myparam)
+        response = myclient1.myrequest(RequestMethod.GET.value,headers=myheaders, url=myurl+myurl_resc_module, dict_myparam=dict_myparam,needSign=True)
     except Exception as e:
         print(f"error: request to {myurl+myurl_resc_module}, details:{e}")
 

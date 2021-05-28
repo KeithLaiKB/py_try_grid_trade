@@ -42,7 +42,7 @@ class MyClient(object):  # 创建Circle类
         print("client initiated")
 
 
-    def myrequest(self, reqMethod:RequestMethod, url, headers=None,  dict_myparam=None):
+    def myrequest(self, reqMethod:RequestMethod, url, headers=None,  dict_myparam=None, needSign=False):
         if headers == None:
             headers = self.__myheaders_apikey
         elif headers != None:
@@ -73,10 +73,14 @@ class MyClient(object):  # 创建Circle类
         # 然后结合url
         # 得到
         # https://api.binance.com/sapi/v1/blvt/tokenInfo?参数名1=参数值1&参数名2=参数值2&参数名3=参数值3&signature=签名值(secretkey值和 请求参数值 整体加密后的结果)
-        req_url = url + '?' + str_urlParam_with_sig
+        if dict_myparam == None or bool(dict_myparam)==False or needSign==False:
+            req_url = url
+        else:
+            req_url = url + '?' + str_urlParam_with_sig
         #
         response = None
         try:
+            print("sending request to", req_url)
             response = requests.request(reqMethod, headers=headers, url=req_url)
         except Exception as e:
             print(f"error: request to {req_url}, details:{e}")
