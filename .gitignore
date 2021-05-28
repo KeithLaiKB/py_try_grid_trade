@@ -127,3 +127,14 @@ dmypy.json
 
 # Pyre type checker
 .pyre/
+
+
+# mysettings
+/**/mycerts/**/*.jks
+/**/mycerts/**/*.cer
+
+/**/.metadata/
+/**/.idea/
+/**/__pycache__/
+
+/**/personal/binance_key/**/*.json
