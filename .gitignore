@@ -138,3 +138,5 @@ dmypy.json
 /**/__pycache__/
 
 /**/personal/binance_key/**/*.json
+
+/**/personal_myorder_record/*
