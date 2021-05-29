@@ -26,11 +26,18 @@ class MyClient(object):  # 创建Circle类
         self.__myapi_resc_module = api_resc_module
         ############################ load binance key  #####################################################
         ############ get path of binance key json file ###############
+        #
+        #
+        ###### method one ######
+        #root_path = '/home/pi/MyWorkspace/pycharm/py_play_workspace1/py_try_grid_trade/py_try_grid_trade_workspace1'
+        ###### method two ######
         my_project_name = 'py_try_grid_trade_workspace1'
         project_path = os.path.abspath(os.path.dirname(__file__))
         print(project_path)
         root_path = project_path[:project_path.find("{}\\".format(my_project_name)) + len("{}\\".format(my_project_name))]
         print('this project name：{}\r\nthis project root path：{}'.format(my_project_name, root_path))
+        #
+        #
         ############ get json content from json file ###############
         str_binance_key = MyDealFile.myReadFile(root_path + r"/personal/binance_key/mykey.json")
         json_binance_key = json.loads(str_binance_key)
