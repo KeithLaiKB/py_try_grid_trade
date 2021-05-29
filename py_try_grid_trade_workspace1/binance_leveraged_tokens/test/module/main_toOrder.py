@@ -32,19 +32,15 @@ def print_hi(name):
 if __name__ == '__main__':
     print_hi('PyCharm')
     myurl = 'https://api.binance.com'
-    myurl_resc_module = '/sapi/v1/blvt/redeem/record'
+    myurl_resc_module = '/api/v3/order/oco'
 
-    dict_myparam = {'tokenName' : 'BNBDOWN'}
-    #dict_myparam = {'tokenName': 'BTCDOWNUSDT'}
-    #dict_myparam = {}
+    dict_myparam = {'symbol' : 'BTCDOWNUSDT', "side" : "BUY",
+                    "quantity" : "1",
+                    "price" : "0.088", "stopPrice" : "0.085", "stopLimitPrice" : "0.082",
+                    "stopLimitTimeInForce":"GTC"}
 
-    long_time = MyTimeTool.convertSpecifictimeToTimestamp('2021-05-28_04:30:00','America/Toronto','%Y-%m-%d_%H:%M:%S')
-    #dict_myparam['timestamp'] = str(long_time)
-    #dict_myparam['timestamp'] = str(1622190600000)
-    dict_myparam['timestamp'] = "1622223697519"
-    print(dict_myparam)
-
-    ###################################################
+    ########################获取 币安 servertime ###########################
+    response = None
     try:
         myurl_servertime = 'https://api.binance.com/api/v3/time'
         response = requests.request(RequestMethod.GET.value, url=myurl_servertime)
@@ -54,14 +50,15 @@ if __name__ == '__main__':
     result_content = response.json()
     long_time = result_content['serverTime']
     #
+    # 需要用 币安 的 servertime做为timestamp 进行提交
     dict_myparam['timestamp'] = str(long_time)
     #dict_myparam['timestamp'] = "1622223697519"
-    ###################################################
+    ########################获取 杠杆代币 的赎回记录 ###########################
     myclient1=MyClient()
 
     response = None
     try:
-        response = myclient1.myrequest(RequestMethod.GET.value,headers=myheaders, url=myurl+myurl_resc_module, dict_myparam=dict_myparam,needSign=True)
+        response = myclient1.myrequest(RequestMethod.POST.value,headers=myheaders, url=myurl+myurl_resc_module, dict_myparam=dict_myparam,needSign=True)
     except Exception as e:
         print(f"error: request to {myurl+myurl_resc_module}, details:{e}")
 

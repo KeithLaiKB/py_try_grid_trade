@@ -24,14 +24,15 @@ class MyClient(object):  # 创建Circle类
         #
         self.__myurl = url
         self.__myapi_resc_module = api_resc_module
-        ###########################
+        ############################ load binance key  #####################################################
+        ############ get path of binance key json file ###############
         my_project_name = 'py_try_grid_trade_workspace1'
         project_path = os.path.abspath(os.path.dirname(__file__))
         print(project_path)
         root_path = project_path[:project_path.find("{}\\".format(my_project_name)) + len("{}\\".format(my_project_name))]
         print('this project name：{}\r\nthis project root path：{}'.format(my_project_name, root_path))
-        ###########################
-        str_binance_key = MyDealFile.myReadFile(r"../personal/binance_key/mykey.json")
+        ############ get json content from json file ###############
+        str_binance_key = MyDealFile.myReadFile(root_path + r"/personal/binance_key/mykey.json")
         json_binance_key = json.loads(str_binance_key)
         #
         self.__apiKey = json_binance_key["binance_api_key"]
@@ -39,6 +40,7 @@ class MyClient(object):  # 创建Circle类
         #
         self.__myheaders_apikey = {"X-MBX-APIKEY" : self.__apiKey}
         print(self.__myheaders_apikey)
+        ###################################################################################################
         print("client initiated")
 
 
@@ -47,7 +49,7 @@ class MyClient(object):  # 创建Circle类
             headers = self.__myheaders_apikey
         elif headers != None:
             headers.update(self.__myheaders_apikey)
-            print("hey",headers)
+            print("hey my header is",headers)
         # 把一组参数字典{参数名1=参数值1, 参数名2=参数值2, 参数名3=参数值3}
         # 弄成字符串             &参数名1=参数值1 &参数名2=参数值2 &参数名3=参数值3  (正常来说 是没有空格的, 只是这里为了你看起来舒服而已)
         # 也就是说
@@ -83,5 +85,5 @@ class MyClient(object):  # 创建Circle类
             print("sending request to", req_url)
             response = requests.request(reqMethod, headers=headers, url=req_url)
         except Exception as e:
-            print(f"error: request to {req_url}, details:{e}")
+            print(f"error: request to {req_url}, details:{e} in MyClient.myrequest")
         return response

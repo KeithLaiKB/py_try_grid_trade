@@ -40,6 +40,7 @@ class MyDealFile:
             f.close()
         return data
 
+    @staticmethod
     def myCopyFile(srcfile, dstfile):
         #fpath, fname = os.path.split(dstfile)  # 分离文件名和路径
         #if not os.path.exists(fpath):

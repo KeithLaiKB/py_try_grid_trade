@@ -7,7 +7,7 @@ from numpy.core import long
 
 class MyTimeTool:
     @staticmethod
-    def convertTimestampToLocaltime(timestamp, format=None):
+    def convertTimestampToLocaltime_str(timestamp, format=None):
         timeArray_temp = time.localtime(timestamp / 1000)
         if format == None:
             format = "%Y--%m--%d %H:%M:%S"
@@ -16,6 +16,17 @@ class MyTimeTool:
             otherStyleTime = time.strftime(format, timeArray_temp)
         #
         print(timeArray_temp)
+        print(otherStyleTime)
+        return otherStyleTime
+
+
+    def convertStrTimeToLocaltime_tm(strTime, format=None):
+        if format == None:
+            format = "%Y--%m--%d %H:%M:%S"
+            otherStyleTime = time.strptime(strTime, format)
+        elif format != None:
+            otherStyleTime = time.strptime(strTime, format)
+        #
         print(otherStyleTime)
         return otherStyleTime
 

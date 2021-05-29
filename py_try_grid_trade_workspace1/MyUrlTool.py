@@ -17,7 +17,7 @@ class MyUrlTool(object):
         str_tmp = None
         #
         if bool(myparams) == False:
-            print("noting")
+            print("do noting in convertDictToUrlParameter")
             str_tmp = ""
         elif bool(myparams) == True:
             str_tmp = ""
@@ -34,7 +34,7 @@ class MyUrlTool(object):
                     str_tmp = "" + key + "=" + value
                 elif i >= 0:
                     str_tmp = str_tmp + "&" + key + "=" + value
-            print("parameter:", str_tmp)
+            print("parameter in convertDictToUrlParameter:", str_tmp)
             # 以 f开头表示在字符串内支持大括号内的python 表达式
             # str_tmp = '&'.join([f"{key}={params[key]}" for key in params.keys()])
         return str_tmp
