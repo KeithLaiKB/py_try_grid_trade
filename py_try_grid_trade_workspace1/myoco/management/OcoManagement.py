@@ -326,6 +326,10 @@ class OcoManagement:
         #dict_myparam = {'symbol': 'BTCUPUSDT', "orderListId": "32802265"}
         dict_myparam = {'symbol': mySymbol, "orderListId": myOrderListId}
         myheaders = {}
+        #
+        my_result = None
+        #
+        #
         ########################获取 币安 servertime ###########################
         response = None
         try:
@@ -404,10 +408,15 @@ class OcoManagement:
             filename = str_storePath + "\\" + str_now_time_tmp + ".json"
             with open(filename, 'w') as file_obj:
                 json.dump(result_content, file_obj)
+            #
+            my_result = 1
 
         else:
             # do nothing
             print(response)
+            my_result = -1
+
+        return my_result
 
 
 

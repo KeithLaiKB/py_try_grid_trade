@@ -60,6 +60,8 @@ if __name__ == '__main__':
                                 "price": "0.01", "stopPrice": "0.09005", "stopLimitPrice": "0.09000",
                                 "stopLimitTimeInForce": "GTC"}
                 OcoManagement.placeAnOcoOder(dict_myparam)
+            #
+        #
         elif passFirstTime == True:
             if now_price > my_midPrice:
                 ##############设定新值#######################
@@ -73,15 +75,16 @@ if __name__ == '__main__':
 
                 ############先取消订单#################
                 OcoManagement.getNowAllOcoList()
-                result_orderListId = OcoManagement.getNowOcoListBySymbol("BTCUPUSDT")
+                delete_result_tmp = result_orderListId = OcoManagement.getNowOcoListBySymbol("BTCUPUSDT")
                 print(result_orderListId)
                 OcoManagement.deleteOcoOderListBySymbolAndOrderListId("BTCUPUSDT", str(result_orderListId))
                 ############按照新的设定 重新下单#################
-                dict_myparam = {'symbol': 'BTCUPUSDT', "side": "SELL",
-                                "quantity": "1135.20",
-                                "price": str(my_price), "stopPrice": str(my_stopPrice), "stopLimitPrice": str(my_stopLimitPrice),
-                                "stopLimitTimeInForce": "GTC"}
-                OcoManagement.placeAnOcoOder(dict_myparam)
+                if delete_result_tmp == 1:
+                    dict_myparam = {'symbol': 'BTCUPUSDT', "side": "SELL",
+                                    "quantity": "1135.20",
+                                    "price": str(my_price), "stopPrice": str(my_stopPrice), "stopLimitPrice": str(my_stopLimitPrice),
+                                    "stopLimitTimeInForce": "GTC"}
+                    OcoManagement.placeAnOcoOder(dict_myparam)
         time.sleep(5)
 
     #
