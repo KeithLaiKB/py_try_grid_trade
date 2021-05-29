@@ -224,7 +224,7 @@ class OcoManagement:
             now_time_tmp = MyTimeTool.convertStrTimeToLocaltime_tm(str_now_time_tmp, "PlaceOco_%Y_%m_%d__%H_%M_%S")
             #
             # 例如
-            # E:\mygit_workspace\grid_trade\py_try_grid_trade\py_try_grid_trade_workspace1\personal_myorder_record\placeorder\y_2021\m_05\d_29
+            # E:\mygit_workspace\grid_trade\py_try_grid_trade\py_try_grid_trade_workspace1\personal_myorder_record\myrecord_history\placeorder\y_2021\m_05\d_29
             # PlaceOco_2021_05_29__03_48_12.json
             #
             ############ year ##########
@@ -249,7 +249,7 @@ class OcoManagement:
                 day_tmp = "d_" + day_tmp
             #
             ########### mkdir ###########
-            str_storePath = root_path + "\\personal_myorder_record" + "\\placeorder" + "\\" + year_tmp + "\\" + month_tmp + "\\"+ day_tmp
+            str_storePath = root_path + "\\personal_myorder_record\\myrecord_history" + "\\placeorder" + "\\" + year_tmp + "\\" + month_tmp + "\\"+ day_tmp
             MyDealFile.mymkdir(str_storePath)
             #
             ###### write json file #######
@@ -372,7 +372,7 @@ class OcoManagement:
             now_time_tmp = MyTimeTool.convertStrTimeToLocaltime_tm(str_now_time_tmp, "PlaceOco_%Y_%m_%d__%H_%M_%S")
             #
             # 例如
-            # E:\mygit_workspace\grid_trade\py_try_grid_trade\py_try_grid_trade_workspace1\personal_myorder_record\placeorder\y_2021\m_05\d_29
+            # E:\mygit_workspace\grid_trade\py_try_grid_trade\py_try_grid_trade_workspace1\personal_myorder_record\myrecord_history\placeorder\y_2021\m_05\d_29
             # PlaceOco_2021_05_29__03_48_12.json
             #
             ############ year ##########
@@ -397,7 +397,7 @@ class OcoManagement:
                 day_tmp = "d_" + day_tmp
             #
             ########### mkdir ###########
-            str_storePath = root_path + "\\personal_myorder_record" + "\\deleteorder" + "\\" + year_tmp + "\\" + month_tmp + "\\" + day_tmp
+            str_storePath = root_path + "\\personal_myorder_record\\myrecord_history" + "\\deleteorder" + "\\" + year_tmp + "\\" + month_tmp + "\\" + day_tmp
             MyDealFile.mymkdir(str_storePath)
             #
             ###### write json file #######

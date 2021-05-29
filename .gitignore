@@ -139,4 +139,4 @@ dmypy.json
 
 /**/personal/binance_key/**/*.json
 
-/**/personal_myorder_record/*
+/**/personal_myorder_record/myrecord_history/
