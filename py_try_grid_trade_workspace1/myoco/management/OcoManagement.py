@@ -248,6 +248,15 @@ class OcoManagement:
             elif len(day_tmp) == 2:
                 day_tmp = "d_" + day_tmp
             #
+            ############ seconds #############
+            sec_tmp = str(now_time_tmp.tm_sec)
+            # 如果得到的是 2  那么 日子要弄成 sec_05
+            if len(sec_tmp) == 1:
+                day_tmp = "sec_" +  "0" + sec_tmp
+            # 如果得到的是 12 那么 日子要弄成 sec_15
+            elif len(sec_tmp) == 2:
+                day_tmp = "sec_" + sec_tmp
+            #
             ########### mkdir ###########
             str_storePath = root_path + "\\personal_myorder_record\\myrecord_history" + "\\placeorder" + "\\" + year_tmp + "\\" + month_tmp + "\\"+ day_tmp
             MyDealFile.mymkdir(str_storePath)
@@ -256,10 +265,11 @@ class OcoManagement:
             filename = str_storePath + "\\" + str_now_time_tmp + ".json"
             with open(filename, 'w') as file_obj:
                 json.dump(result_content, file_obj)
-
+            print("######################saved")
         else:
             # do nothing
-            print(response)
+            print("ffffffffffffffffaillllll to place oco", response)
+            print("ffffffffffffffffaillllll to place oco", response.json())
 
     '''
     {
@@ -410,7 +420,7 @@ class OcoManagement:
                 json.dump(result_content, file_obj)
             #
             my_result = 1
-
+            print("####################saved deleted")
         else:
             # do nothing
             print(response)
