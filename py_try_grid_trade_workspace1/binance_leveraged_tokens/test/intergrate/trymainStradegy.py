@@ -65,13 +65,22 @@ if __name__ == '__main__':
         elif passFirstTime == True:
             if now_price > my_midPrice:
                 ##############设定新值#######################
-                # 目标中间值 上升 0.05
-                my_midPrice         = my_midPrice + 0.00500
+                '''
+                # 目标中间值 上升 0.005
+                my_midPrice       = my_midPrice + 0.00500
+                
                 #
                 # 其他以此为参考标准 进行调整
                 my_price            = my_midPrice + 0.00500
                 my_stopLimitPrice   = my_stopLimitPrice + 0.00200
                 my_stopPrice        = my_stopLimitPrice + 0.00005
+                '''
+                my_midPrice         = now_price
+
+                my_price            = my_midPrice * (1 + 0.05)
+                my_stopLimitPrice   = my_midPrice * (1 - 0.06)
+                my_stopPrice        = my_stopLimitPrice +0.00005
+
 
                 ############先取消订单#################
                 OcoManagement.getNowAllOcoList()
