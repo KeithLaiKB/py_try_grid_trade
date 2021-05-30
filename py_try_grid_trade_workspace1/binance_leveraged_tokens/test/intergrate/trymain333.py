@@ -1,6 +1,6 @@
 import time
 
-from myoco.BlvtManagement import BlvtManagement
+from binance_leveraged_tokens.management import BlvtManagement
 from normalcheck.main import print_hi
 
 

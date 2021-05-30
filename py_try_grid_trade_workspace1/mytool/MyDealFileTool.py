@@ -3,7 +3,16 @@ import pickle
 import shutil
 
 
-class MyDealFile:
+class MyDealFileTool:
+    @staticmethod
+    def getRootPath(str_projectName):
+        project_path = os.path.abspath(os.path.dirname(__file__))
+        print(project_path)
+        #
+        root_path = project_path[:project_path.find("{}\\".format(str_projectName)) + len("{}\\".format(str_projectName))]
+        print('this project name：{}\r\nthis project root path：{}'.format(str_projectName, root_path))
+        return root_path
+
     @staticmethod
     def mymkdir(path):
         # 去除首尾空格
@@ -38,6 +47,13 @@ class MyDealFile:
             for line in f:
                 data = data + line
             f.close()
+        return data
+
+    @staticmethod
+    def myWriteFile(path, str):
+        data = ''
+        with open(path, "w") as f:
+            f.write(str)
         return data
 
     @staticmethod

@@ -11,6 +11,10 @@ from normalcheck.main import print_hi
 if __name__ == '__main__':
     print_hi('PyCharm')
 
+
+    mycoin_token    = 'BTCDOWN'
+    mycoin_symbol   = 'BTCDOWNUSDT'
+    mycoin_quantity = '1135.20'
     #
     # 假设没挂单
     #
@@ -64,7 +68,7 @@ if __name__ == '__main__':
 
     passFirstTime = False
     while True:
-        result_content = BlvtManagement.getBlvtTokenInfoBySymbol("BTCDOWN")
+        result_content = BlvtManagement.getBlvtTokenInfoBySymbol(mycoin_token)
 
         now_price = result_content[0]["nav"]
         now_price = float(now_price)
@@ -72,8 +76,8 @@ if __name__ == '__main__':
         ###########################################################################
         if passFirstTime == False:
             if now_price > my_midPrice:
-                dict_myparam = {'symbol': 'BTCDOWNUSDT', "side": "SELL",
-                                "quantity": "1135.20",
+                dict_myparam = {'symbol': mycoin_symbol, "side": "SELL",
+                                "quantity": mycoin_quantity,
                                 "price": str(my_price), "stopPrice": str(my_stopPrice), "stopLimitPrice": str(my_stopLimitPrice),
                                 "stopLimitTimeInForce": "GTC"}
                 OcoManagement.placeAnOcoOder(dict_myparam)
@@ -83,7 +87,7 @@ if __name__ == '__main__':
         #
         elif passFirstTime == True:
             if now_price > my_midPrice:
-                print("##########################################now{},old{}", now_price, my_midPrice)
+                print("##########################################now{0},old{1}".format(now_price, my_midPrice))
                 ##############设定新值#######################
                 '''
                 # 目标中间值 上升 0.005
@@ -111,14 +115,14 @@ if __name__ == '__main__':
 
                 ############先取消订单#################
                 OcoManagement.getNowAllOcoList()
-                result_orderListId = OcoManagement.getNowOcoListBySymbol("BTCDOWNUSDT")
+                result_orderListId = OcoManagement.getNowOcoListBySymbol(mycoin_symbol)
                 print(result_orderListId)
-                delete_result_tmp = OcoManagement.deleteOcoOderListBySymbolAndOrderListId("BTCDOWNUSDT", str(result_orderListId))
+                delete_result_tmp = OcoManagement.deleteOcoOderListBySymbolAndOrderListId(mycoin_symbol, str(result_orderListId))
                 print("##########################################", delete_result_tmp)
                 ############按照新的设定 重新下单#################
                 if delete_result_tmp == 1:
-                    dict_myparam = {'symbol': 'BTCDOWNUSDT', "side": "SELL",
-                                    "quantity": "1135.20",
+                    dict_myparam = {'symbol': mycoin_symbol, "side": "SELL",
+                                    "quantity": mycoin_quantity,
                                     "price": str(my_price), "stopPrice": str(my_stopPrice), "stopLimitPrice": str(my_stopLimitPrice),
                                     "stopLimitTimeInForce": "GTC"}
                     OcoManagement.placeAnOcoOder(dict_myparam)

@@ -1,7 +1,7 @@
 from collections import OrderedDict
 
-from MyUrlTool import RequestMethod
-from mytool.MyClient import MyClient
+from mytool.MyUrlTool import RequestMethod
+from client.MyClient import MyClient
 
 
 class BlvtManagement:

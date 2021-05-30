@@ -1,19 +1,15 @@
 import json
 import os
-from collections import OrderedDict
 
 from pip._vendor import requests
 
-from MyDealFile import MyDealFile
-from MyUrlTool import RequestMethod
-from mytool.MyClient import MyClient
+from mytool.MyDealFileTool import MyDealFileTool
+from mytool.MyUrlTool import RequestMethod
+from client.MyClient import MyClient
 from mytool.MyTimeTool import MyTimeTool
 
 
 class OcoManagement:
-
-
-
     '''
     [
         {
@@ -39,6 +35,7 @@ class OcoManagement:
         }
     ]
     '''
+
     @staticmethod
     def getNowAllOcoList():
         myurl = 'https://api.binance.com'
@@ -77,11 +74,11 @@ class OcoManagement:
             print(response)
             print(result_content)
             #
-            #data = OrderedDict(result_content[0])
-            #first_ele = list(data.items())[1]
+            # data = OrderedDict(result_content[0])
+            # first_ele = list(data.items())[1]
             # long_time = result_content['serverTime']
-            #first_ele = list(data.items())[1]
-            #print(first_ele)
+            # first_ele = list(data.items())[1]
+            # print(first_ele)
             '''
             for listtmp in result_content:
                 if listtmp["symbol"] == "BTCUPUSDT":
@@ -93,24 +90,21 @@ class OcoManagement:
             print(response)
             return None
 
-
-
     @staticmethod
     def getNowOcoListBySymbol(mysymbol):
         json_allOrderlist = OcoManagement.getNowAllOcoList()
         #
         result_orderListId = None
         #
-        if json_allOrderlist is not None and json_allOrderlist !="":
+        if json_allOrderlist is not None and json_allOrderlist != "":
             for listtmp in json_allOrderlist:
-                #if listtmp["symbol"] == "BTCUPUSDT":
+                # if listtmp["symbol"] == "BTCUPUSDT":
                 if listtmp["symbol"] == mysymbol:
                     result_orderListId = listtmp["orderListId"]
-                    print("orderListId is:",result_orderListId)
+                    print("orderListId is:", result_orderListId)
                     break
 
         return result_orderListId
-
 
     '''
     {
@@ -169,6 +163,7 @@ class OcoManagement:
     }
     
     '''
+
     @staticmethod
     def placeAnOcoOder(dict_myparam):
         myurl = 'https://api.binance.com'
@@ -180,6 +175,8 @@ class OcoManagement:
                         "stopLimitTimeInForce": "GTC"}
         '''
         myheaders = {}
+        #
+        my_result = None
         ########################获取 币安 servertime ###########################
         response = None
         try:
@@ -213,14 +210,19 @@ class OcoManagement:
             #
             ################################# save this transaction history json #################################
             ############ get root path  ###############
+            '''
             my_project_name = 'py_try_grid_trade_workspace1'
             project_path = os.path.abspath(os.path.dirname(__file__))
             print(project_path)
             root_path = project_path[:project_path.find("{}\\".format(my_project_name)) + len("{}\\".format(my_project_name))]
             print('this project name：{}\r\nthis project root path：{}'.format(my_project_name, root_path))
+            '''
+            my_project_name = 'py_try_grid_trade_workspace1'
+            root_path = MyDealFileTool.getRootPath(my_project_name)
             ############ create sub path ###############
             myTransactionTime = result_content['transactionTime']
-            str_now_time_tmp = MyTimeTool.convertTimestampToLocaltime_str(myTransactionTime, "PlaceOco_%Y_%m_%d__%H_%M_%S")
+            str_now_time_tmp = MyTimeTool.convertTimestampToLocaltime_str(myTransactionTime,
+                                                                          "PlaceOco_%Y_%m_%d__%H_%M_%S")
             now_time_tmp = MyTimeTool.convertStrTimeToLocaltime_tm(str_now_time_tmp, "PlaceOco_%Y_%m_%d__%H_%M_%S")
             #
             # 例如
@@ -234,7 +236,7 @@ class OcoManagement:
             month_tmp = str(now_time_tmp.tm_mon)
             # 如果得到的是 5  那么 日子要弄成 m_05
             if len(month_tmp) == 1:
-                month_tmp = "m_" +  "0" + month_tmp
+                month_tmp = "m_" + "0" + month_tmp
             # 如果得到的是 12 那么 日子要弄成 m_12
             elif len(month_tmp) == 2:
                 month_tmp = "m_" + month_tmp
@@ -243,7 +245,7 @@ class OcoManagement:
             day_tmp = str(now_time_tmp.tm_mday)
             # 如果得到的是 5  那么 日子要弄成 d_05
             if len(day_tmp) == 1:
-                day_tmp = "d_" +  "0" + day_tmp
+                day_tmp = "d_" + "0" + day_tmp
             # 如果得到的是 15 那么 日子要弄成 d_15
             elif len(day_tmp) == 2:
                 day_tmp = "d_" + day_tmp
@@ -252,24 +254,31 @@ class OcoManagement:
             sec_tmp = str(now_time_tmp.tm_sec)
             # 如果得到的是 2  那么 日子要弄成 sec_05
             if len(sec_tmp) == 1:
-                day_tmp = "sec_" +  "0" + sec_tmp
+                sec_tmp = "sec_" + "0" + sec_tmp
             # 如果得到的是 12 那么 日子要弄成 sec_15
             elif len(sec_tmp) == 2:
-                day_tmp = "sec_" + sec_tmp
+                sec_tmp = "sec_" + sec_tmp
             #
             ########### mkdir ###########
-            str_storePath = root_path + "\\personal_myorder_record\\myrecord_history" + "\\placeorder" + "\\" + year_tmp + "\\" + month_tmp + "\\"+ day_tmp
-            MyDealFile.mymkdir(str_storePath)
+            str_storePath = root_path + "\\personal_myorder_record\\myrecord_history" + "\\placeorder" + "\\" + year_tmp + "\\" + month_tmp + "\\" + day_tmp
+            MyDealFileTool.mymkdir(str_storePath)
             #
             ###### write json file #######
             filename = str_storePath + "\\" + str_now_time_tmp + ".json"
             with open(filename, 'w') as file_obj:
                 json.dump(result_content, file_obj)
             print("######################saved")
+
+            my_result = {"result": 1, "json_file_path": str_storePath, "json_file_name_without_suffix": str_now_time_tmp}
+
         else:
             # do nothing
             print("ffffffffffffffffaillllll to place oco", response)
             print("ffffffffffffffffaillllll to place oco", response.json())
+            #
+            my_result = {"result": -1, "json_file_path": None, "json_file_name_without_suffix": None}
+        #
+        return my_result
 
     '''
     {
@@ -328,12 +337,13 @@ class OcoManagement:
     }
     
     '''
+
     @staticmethod
     def deleteOcoOderListBySymbolAndOrderListId(mySymbol, myOrderListId):
         myurl = 'https://api.binance.com'
         myurl_resc_module = '/api/v3/orderList'
 
-        #dict_myparam = {'symbol': 'BTCUPUSDT', "orderListId": "32802265"}
+        # dict_myparam = {'symbol': 'BTCUPUSDT', "orderListId": "32802265"}
         dict_myparam = {'symbol': mySymbol, "orderListId": myOrderListId}
         myheaders = {}
         #
@@ -373,12 +383,16 @@ class OcoManagement:
             #
             ################################# save this transaction history json #################################
             ############ get root path  ###############
+            '''
             my_project_name = 'py_try_grid_trade_workspace1'
             project_path = os.path.abspath(os.path.dirname(__file__))
             print(project_path)
             root_path = project_path[
                         :project_path.find("{}\\".format(my_project_name)) + len("{}\\".format(my_project_name))]
             print('this project name：{}\r\nthis project root path：{}'.format(my_project_name, root_path))
+            '''
+            my_project_name = 'py_try_grid_trade_workspace1'
+            root_path = MyDealFileTool.getRootPath(my_project_name)
             ############ create sub path ###############
             myTransactionTime = result_content['transactionTime']
             str_now_time_tmp = MyTimeTool.convertTimestampToLocaltime_str(myTransactionTime,
@@ -412,7 +426,7 @@ class OcoManagement:
             #
             ########### mkdir ###########
             str_storePath = root_path + "\\personal_myorder_record\\myrecord_history" + "\\deleteorder" + "\\" + year_tmp + "\\" + month_tmp + "\\" + day_tmp
-            MyDealFile.mymkdir(str_storePath)
+            MyDealFileTool.mymkdir(str_storePath)
             #
             ###### write json file #######
             filename = str_storePath + "\\" + str_now_time_tmp + ".json"
@@ -427,9 +441,3 @@ class OcoManagement:
             my_result = -1
 
         return my_result
-
-
-
-
-
-

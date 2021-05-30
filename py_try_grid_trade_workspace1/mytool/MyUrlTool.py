@@ -9,10 +9,11 @@ class RequestMethod(Enum):
 
 
 class MyUrlTool(object):
+    '''
     def __init__(self, url=None):
         print("tool initiated")
-
-
+    '''
+    @staticmethod
     def convertDictToUrlParameter(myparams: dict):
         str_tmp = None
         #

@@ -2,19 +2,15 @@
 
 # Press Shift+F10 to execute it or replace it with your code.
 # Press Double Shift to search everywhere for classes, files, tool windows, actions, and settings.
-import datetime
-import time
 from collections import OrderedDict
 
 ########################################################
-import pytz
 from pip._vendor import requests
 
-from mytool.MyClient import MyClient
-from MyUrlTool import RequestMethod
+from client.MyClient import MyClient
+from mytool.MyUrlTool import RequestMethod
 
 #myheaders = {"a": 'b'}
-from mytool.MyTimeTool import MyTimeTool
 
 myheaders = {}
 

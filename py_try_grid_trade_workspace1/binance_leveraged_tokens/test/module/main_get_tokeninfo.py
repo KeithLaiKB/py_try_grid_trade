@@ -5,8 +5,8 @@
 from collections import OrderedDict
 
 ########################################################
-from mytool.MyClient import MyClient
-from MyUrlTool import RequestMethod
+from client.MyClient import MyClient
+from mytool.MyUrlTool import RequestMethod
 
 #myheaders = {"a": 'b'}
 myheaders = {}

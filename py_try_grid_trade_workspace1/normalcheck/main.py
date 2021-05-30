@@ -2,16 +2,9 @@
 
 # Press Shift+F10 to execute it or replace it with your code.
 # Press Double Shift to search everywhere for classes, files, tool windows, actions, and settings.
-import datetime
-import json
-import time
-from enum import Enum
 
-import pytz as pytz
-from pip._vendor import requests
-
-from MyUrlTool import RequestMethod
-from mytool.MyClient import MyClient
+from mytool.MyUrlTool import RequestMethod
+from client.MyClient import MyClient
 from mytool.MyTimeTool import MyTimeTool
 
 
