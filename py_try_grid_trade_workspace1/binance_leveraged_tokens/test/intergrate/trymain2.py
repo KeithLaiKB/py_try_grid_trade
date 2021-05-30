@@ -20,7 +20,7 @@ if __name__ == '__main__':
     dict_operate_history = {"midprice": str(666)+"测试",
                             "price": "20.000", "stopPrice": "100.000", "stopLimitPrice": "30.000",
                             }
-    filename = json_placeorder_result["json_file_path"] + "\\" + json_placeorder_result["json_file_name_without_suffix"] + "_operate_history" + ".json"
+    filename = json_placeorder_result["json_file_path"] + "/" + json_placeorder_result["json_file_name_without_suffix"] + "_operate_history" + ".json"
     #
     with open(filename, 'w') as file_obj:
         json.dump(dict_operate_history, file_obj)

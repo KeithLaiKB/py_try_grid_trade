@@ -10,6 +10,7 @@ class MyDealFileTool:
         print(project_path)
         #
         root_path = project_path[:project_path.find("{}\\".format(str_projectName)) + len("{}\\".format(str_projectName))]
+        # root_path = '/home/pi/MyWorkspace/pycharm/py_play_workspace1/py_try_grid_trade/py_try_grid_trade_workspace1/'
         print('this project name：{}\r\nthis project root path：{}'.format(str_projectName, root_path))
         return root_path
 

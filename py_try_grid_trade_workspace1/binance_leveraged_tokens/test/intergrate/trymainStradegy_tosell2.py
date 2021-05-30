@@ -58,12 +58,27 @@ if __name__ == '__main__':
     my_stopLimitPrice   = 0.09000
     '''
     #
+    initial_expected_profit_rate    = 0.05          # 相较于当前的myprice的 比例
+    initial_expected_loss_rate      = 0.06          # 相较于当前的myprice的 比例
+    after_expected_profit_rate      = 0.05          # 相较于当前的myprice的 比例
+    after_expected_loss_rate        = 0.06          # 相较于当前的myprice的 比例
+    #
+    step_update_interval            = 0.001         # myprice=now_price 后进行 更新的幅度
+    #
+    gap_stoplimit_stoplimiprice = 0.00005  # myprice=now_price 后进行 更新的幅度
+    #
     #my_midPrice         = 0.06700
     my_midPrice          = 0.06200
-
+    #
+    '''
     my_price            = my_midPrice * (1 + 0.05)
     my_stopLimitPrice   = my_midPrice * (1 - 0.06)
     my_stopPrice        = my_stopLimitPrice + 0.00005
+    '''
+    #
+    my_price            = my_midPrice * (1 + initial_expected_profit_rate)
+    my_stopLimitPrice   = my_midPrice * (1 - initial_expected_loss_rate)
+    my_stopPrice        = my_stopLimitPrice + gap_stoplimit_stoplimiprice
 
     #######################Precision is over the maximum defined for this asset
     my_midPrice = round(my_midPrice, mycoin_precision)
@@ -103,7 +118,7 @@ if __name__ == '__main__':
                                         "stopPrice": my_stopPrice,
                                         "stopLimitPrice": my_stopLimitPrice
                                         }
-                filename = json_placeorder_result["json_file_path"] + "\\" + json_placeorder_result["json_file_name_without_suffix"]+"_operate_history" + ".json"
+                filename = json_placeorder_result["json_file_path"] + "/" + json_placeorder_result["json_file_name_without_suffix"]+"_operate_history" + ".json"
                 #
                 with open(filename, 'w') as file_obj:
                     json.dump(dict_operate_history, file_obj)
@@ -126,12 +141,14 @@ if __name__ == '__main__':
                 my_stopLimitPrice   = my_stopLimitPrice + 0.00200
                 my_stopPrice        = my_stopLimitPrice + 0.00005
                 '''
-                #my_midPrice         = now_price   #调试用 因为这样的话 很快my_midPrice就会更新
-                my_midPrice         = now_price +  + 0.001
+                #my_midPrice        = now_price   #调试用 因为这样的话 很快my_midPrice就会更新
+                # my_midPrice       = now_price + 0.001
+                my_midPrice         = now_price + step_update_interval
 
-                my_price            = my_midPrice * (1 + 0.05)
-                my_stopLimitPrice   = my_midPrice * (1 - 0.06)
-                my_stopPrice        = my_stopLimitPrice +0.00005
+                my_price            = my_midPrice * (1 + after_expected_profit_rate)
+                my_stopLimitPrice   = my_midPrice * (1 - after_expected_loss_rate)
+                #my_stopPrice        = my_stopLimitPrice +0.00005
+                my_stopPrice        = my_stopLimitPrice + gap_stoplimit_stoplimiprice
 
                 #######################Precision is over the maximum defined for this asset
                 my_midPrice         = round(my_midPrice, mycoin_precision)
@@ -164,7 +181,7 @@ if __name__ == '__main__':
                                             "stopPrice": my_stopPrice,
                                             "stopLimitPrice": my_stopLimitPrice
                                             }
-                    filename = json_placeorder_result["json_file_path"] + "\\" + json_placeorder_result[
+                    filename = json_placeorder_result["json_file_path"] + "/" + json_placeorder_result[
                         "json_file_name_without_suffix"] + "_operate_history" + ".json"
                     #
                     with open(filename, 'w') as file_obj:

@@ -260,11 +260,11 @@ class OcoManagement:
                 sec_tmp = "sec_" + sec_tmp
             #
             ########### mkdir ###########
-            str_storePath = root_path + "\\personal_myorder_record\\myrecord_history" + "\\placeorder" + "\\" + year_tmp + "\\" + month_tmp + "\\" + day_tmp
+            str_storePath = root_path + "/personal_myorder_record/myrecord_history" + "/placeorder" + "/" + year_tmp + "/" + month_tmp + "/" + day_tmp
             MyDealFileTool.mymkdir(str_storePath)
             #
             ###### write json file #######
-            filename = str_storePath + "\\" + str_now_time_tmp + ".json"
+            filename = str_storePath + "/" + str_now_time_tmp + ".json"
             with open(filename, 'w') as file_obj:
                 json.dump(result_content, file_obj)
             print("######################saved")
@@ -425,11 +425,11 @@ class OcoManagement:
                 day_tmp = "d_" + day_tmp
             #
             ########### mkdir ###########
-            str_storePath = root_path + "\\personal_myorder_record\\myrecord_history" + "\\deleteorder" + "\\" + year_tmp + "\\" + month_tmp + "\\" + day_tmp
+            str_storePath = root_path + "/personal_myorder_record/myrecord_history" + "/deleteorder" + "/" + year_tmp + "/" + month_tmp + "/" + day_tmp
             MyDealFileTool.mymkdir(str_storePath)
             #
             ###### write json file #######
-            filename = str_storePath + "\\" + str_now_time_tmp + ".json"
+            filename = str_storePath + "/" + str_now_time_tmp + ".json"
             with open(filename, 'w') as file_obj:
                 json.dump(result_content, file_obj)
             #
