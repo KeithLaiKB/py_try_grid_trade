@@ -1,4 +1,5 @@
 import json
+import logging
 import os
 
 from pip._vendor import requests
@@ -202,7 +203,7 @@ class OcoManagement:
             print(f"error: request to {myurl + myurl_resc_module}, details:{e}")
 
         #
-        if response.status_code == 200:
+        if response is not None and response.status_code == 200:
             result_content = response.json()
             #
             print(response)
@@ -273,8 +274,8 @@ class OcoManagement:
 
         else:
             # do nothing
-            print("ffffffffffffffffaillllll to place oco", response)
-            print("ffffffffffffffffaillllll to place oco", response.json())
+            logging.log(logging.INFO, "fail to place oco:",response)
+            logging.log(logging.INFO, "fail to place oco:",response.json())
             #
             my_result = {"result": -1, "json_file_path": None, "json_file_name_without_suffix": None}
         #

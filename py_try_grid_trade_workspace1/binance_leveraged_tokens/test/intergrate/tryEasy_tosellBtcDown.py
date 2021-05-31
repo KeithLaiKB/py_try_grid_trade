@@ -58,10 +58,10 @@ if __name__ == '__main__':
     my_stopLimitPrice   = 0.09000
     '''
     #
-    initial_expected_profit_rate    = 0.015          # 相较于当前的myprice的 比例
-    initial_expected_loss_rate      = 0.015          # 相较于当前的myprice的 比例
-    after_expected_profit_rate      = 0.015          # 相较于当前的myprice的 比例
-    after_expected_loss_rate        = 0.015          # 相较于当前的myprice的 比例
+    initial_expected_profit_rate    = 0.018          # 相较于当前的myprice的 比例
+    initial_expected_loss_rate      = 0.018          # 相较于当前的myprice的 比例
+    after_expected_profit_rate      = 0.018          # 相较于当前的myprice的 比例
+    after_expected_loss_rate        = 0.018          # 相较于当前的myprice的 比例
     #
     step_update_interval            = 0.00020        # myprice=now_price 后进行 更新的幅度
     #
@@ -95,9 +95,10 @@ if __name__ == '__main__':
 
         result_content = BlvtManagement.getBlvtTokenInfoBySymbol(mycoin_token)
 
-        now_price = result_content[0]["nav"]
-        now_price = float(now_price)
-        print("price is", now_price)
+        if result_content is not None:
+            now_price = result_content[0]["nav"]
+            now_price = float(now_price)
+            print("price is", now_price)
         ###########################################################################
         if passFirstTime == False:
             if now_price > my_midPrice:
@@ -112,18 +113,20 @@ if __name__ == '__main__':
                 print(json_placeorder_result["json_file_path"])
                 print(json_placeorder_result["json_file_name_without_suffix"])
                 #
-                dict_operate_history = {'symbol': mycoin_symbol,
-                                        "midprice": my_midPrice,
-                                        "price": my_price,
-                                        "stopPrice": my_stopPrice,
-                                        "stopLimitPrice": my_stopLimitPrice
-                                        }
-                filename = json_placeorder_result["json_file_path"] + "/" + json_placeorder_result["json_file_name_without_suffix"]+"_operate_history" + ".json"
-                #
-                with open(filename, 'w') as file_obj:
-                    json.dump(dict_operate_history, file_obj)
-                #################################################
-                passFirstTime = True
+                # if it places order successfully, then record it in a file
+                if json_placeorder_result["result"] == 1:
+                    dict_operate_history = {'symbol': mycoin_symbol,
+                                            "midprice": my_midPrice,
+                                            "price": my_price,
+                                            "stopPrice": my_stopPrice,
+                                            "stopLimitPrice": my_stopLimitPrice
+                                            }
+                    filename = json_placeorder_result["json_file_path"] + "/" + json_placeorder_result["json_file_name_without_suffix"]+"_operate_history" + ".json"
+                    #
+                    with open(filename, 'w') as file_obj:
+                        json.dump(dict_operate_history, file_obj)
+                    #################################################
+                    passFirstTime = True
             #
         #
         elif passFirstTime == True:
@@ -175,17 +178,19 @@ if __name__ == '__main__':
                     print(json_placeorder_result["json_file_path"])
                     print(json_placeorder_result["json_file_name_without_suffix"])
                     #
-                    dict_operate_history = {'symbol': mycoin_symbol,
-                                            "midprice": my_midPrice,
-                                            "price": my_price,
-                                            "stopPrice": my_stopPrice,
-                                            "stopLimitPrice": my_stopLimitPrice
-                                            }
-                    filename = json_placeorder_result["json_file_path"] + "/" + json_placeorder_result[
-                        "json_file_name_without_suffix"] + "_operate_history" + ".json"
-                    #
-                    with open(filename, 'w') as file_obj:
-                        json.dump(dict_operate_history, file_obj)
+                    # if it places order successfully, then record it in a file
+                    if json_placeorder_result["result"] == 1:
+                        dict_operate_history = {'symbol': mycoin_symbol,
+                                                "midprice": my_midPrice,
+                                                "price": my_price,
+                                                "stopPrice": my_stopPrice,
+                                                "stopLimitPrice": my_stopLimitPrice
+                                                }
+                        filename = json_placeorder_result["json_file_path"] + "/" + json_placeorder_result[
+                            "json_file_name_without_suffix"] + "_operate_history" + ".json"
+                        #
+                        with open(filename, 'w') as file_obj:
+                            json.dump(dict_operate_history, file_obj)
                     #################################################
         time.sleep(3)
 
