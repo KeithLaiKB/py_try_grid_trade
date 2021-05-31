@@ -8,8 +8,8 @@ if __name__ == '__main__':
     print_hi('PyCharm')
 
     dict_myparam = {'symbol': 'BTCUPUSDT', "side": "BUY",
-                    "quantity": "0.5",
-                    "price": "20.000", "stopPrice": "100.000", "stopLimitPrice": "30.000",
+                    "quantity": "0.3",
+                    "price": "40", "stopPrice": "70", "stopLimitPrice": "40",
                     "stopLimitTimeInForce": "GTC"}
     json_placeorder_result = OcoManagement.placeAnOcoOder(dict_myparam)
     print(json_placeorder_result["result"])
@@ -18,7 +18,7 @@ if __name__ == '__main__':
     #
     ###############################
     dict_operate_history = {"midprice": str(666)+"测试",
-                            "price": "20.000", "stopPrice": "100.000", "stopLimitPrice": "30.000",
+                            "price": "40", "stopPrice": "70", "stopLimitPrice": "40",
                             }
     filename = json_placeorder_result["json_file_path"] + "/" + json_placeorder_result["json_file_name_without_suffix"] + "_operate_history" + ".json"
     #
