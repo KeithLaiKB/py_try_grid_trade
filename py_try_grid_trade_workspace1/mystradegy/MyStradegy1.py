@@ -13,7 +13,9 @@ class MyStradegy1:
                      aft_expected_profit_rate, aft_expected_loss_rate,
                      stp_update_interval, gp_stoplimit_stoplimiprice,
                      mymidPrice):
-        logging.basicConfig(level=logging.INFO)
+        #logging.basicConfig(level=logging.INFO)
+        logging.basicConfig(level=logging.DEBUG)
+
         '''
         mycoin_token = 'BTCDOWN'
         mycoin_symbol = 'BTCDOWNUSDT'
@@ -154,39 +156,46 @@ class MyStradegy1:
                     my_stopLimitPrice = round(my_stopLimitPrice, mycoin_precision)
                     my_stopPrice = round(my_stopPrice, mycoin_precision)
 
-                    ############先取消订单#################
+                    ############## 获取这个币 已经下的订单(这个策略中 针对这个币 只做一个订单) #######################
                     OcoManagement.getNowAllOcoList()
                     result_orderListId = OcoManagement.getNowOcoListBySymbol(mycoin_symbol)
-                    print(result_orderListId)
-                    delete_result_tmp = OcoManagement.deleteOcoOderListBySymbolAndOrderListId(mycoin_symbol,
+                    # 如果 订单    不存在, 就不做后续的操作了, 暂时来说不是什么大问题, 所以用 logging.DEBUG
+                    if result_orderListId is None:
+                        logging.log(logging.DEBUG, "could not find oco order lists with symbol({0})".format(mycoin_symbol))
+                    # 如果 这个订单 存在
+                    elif result_orderListId is not None:
+                        ################# 先取消订单 ####################
+                        print(result_orderListId)
+                        delete_result_tmp = OcoManagement.deleteOcoOderListBySymbolAndOrderListId(mycoin_symbol,
                                                                                               str(result_orderListId))
-                    logging.log(logging.INFO, "deleted result:{0}".format(delete_result_tmp))
-                    ############按照新的设定 重新下单#################
-                    if delete_result_tmp == 1:
-                        dict_myparam = {'symbol': mycoin_symbol, "side": "SELL",
-                                        "quantity": mycoin_quantity,
-                                        "price": str(my_price), "stopPrice": str(my_stopPrice),
-                                        "stopLimitPrice": str(my_stopLimitPrice),
-                                        "stopLimitTimeInForce": "GTC"}
-                        json_placeorder_result = OcoManagement.placeAnOcoOder(dict_myparam)
-                        ######### record operation history#############
-                        print(json_placeorder_result["result"])
-                        print(json_placeorder_result["json_file_path"])
-                        print(json_placeorder_result["json_file_name_without_suffix"])
-                        #
-                        # if it places order successfully, then record it in a file
-                        if json_placeorder_result["result"] == 1:
-                            dict_operate_history = {'symbol': mycoin_symbol,
-                                                    "midprice": my_midPrice,
-                                                    "price": my_price,
-                                                    "stopPrice": my_stopPrice,
-                                                    "stopLimitPrice": my_stopLimitPrice
-                                                    }
-                            filename = json_placeorder_result["json_file_path"] + "/" + json_placeorder_result[
-                                "json_file_name_without_suffix"] + "_operate_history" + ".json"
+                        logging.log(logging.INFO, "deleted result:{0}".format(delete_result_tmp))
+                        ############ 按照新的设定 重新下单 ################
+                        # 如果取消订单成功了, 才重新下单
+                        if delete_result_tmp == 1:
+                            dict_myparam = {'symbol': mycoin_symbol, "side": "SELL",
+                                            "quantity": mycoin_quantity,
+                                            "price": str(my_price), "stopPrice": str(my_stopPrice),
+                                            "stopLimitPrice": str(my_stopLimitPrice),
+                                            "stopLimitTimeInForce": "GTC"}
+                            json_placeorder_result = OcoManagement.placeAnOcoOder(dict_myparam)
+                            ######### record operation history#############
+                            print(json_placeorder_result["result"])
+                            print(json_placeorder_result["json_file_path"])
+                            print(json_placeorder_result["json_file_name_without_suffix"])
                             #
-                            with open(filename, 'w') as file_obj:
-                                json.dump(dict_operate_history, file_obj)
-                        #################################################
+                            # if it places order successfully, then record it in a file
+                            if json_placeorder_result["result"] == 1:
+                                dict_operate_history = {'symbol': mycoin_symbol,
+                                                        "midprice": my_midPrice,
+                                                        "price": my_price,
+                                                        "stopPrice": my_stopPrice,
+                                                        "stopLimitPrice": my_stopLimitPrice
+                                                        }
+                                filename = json_placeorder_result["json_file_path"] + "/" + json_placeorder_result[
+                                    "json_file_name_without_suffix"] + "_operate_history" + ".json"
+                                #
+                                with open(filename, 'w') as file_obj:
+                                    json.dump(dict_operate_history, file_obj)
+                            #################################################
             #
             time.sleep(3)

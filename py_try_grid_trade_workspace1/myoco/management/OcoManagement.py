@@ -376,7 +376,7 @@ class OcoManagement:
             print(f"error: request to {myurl + myurl_resc_module}, details:{e}")
 
         #
-        if response.status_code == 200:
+        if response is not None and response.status_code == 200:
             result_content = response.json()
             #
             print(response)
