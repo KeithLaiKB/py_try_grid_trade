@@ -6,7 +6,7 @@ from binance_leveraged_tokens.management import BlvtManagement
 from myoco.management import OcoManagement
 
 
-class MyStradegy1:
+class MyStradegy1_toSell:
     @staticmethod
     def useStradegy1(coin_token, coin_symbol, coin_quantity, coin_precision,
                      init_expected_profit_rate, init_expected_loss_rate,
@@ -91,6 +91,11 @@ class MyStradegy1:
             ###########################################################################
             # 如果是第一次运行, 先下一个卖OCO单
             if passFirstTime == False:
+                # 因为我在用这个api的时候 我其实不会细算 我的 stoplimitprice是多少的, 因为我只设置了 rate
+                # 防止 nowprice 此时 低于 my_midPrice,
+                #                   并且接触到了 我的stopPrice, 然后又跌到我的 stoplimitprice是多少的  就卖出了
+                #                   从而导致 一挂单 就止损    卖出了
+                # 所以为了 保险起见, 我要求此时 now_price 一定要大于 my_midPrice, 才进行第一次挂单
                 if now_price > my_midPrice:
                     dict_myparam = {'symbol': mycoin_symbol, "side": "SELL",
                                     "quantity": mycoin_quantity,

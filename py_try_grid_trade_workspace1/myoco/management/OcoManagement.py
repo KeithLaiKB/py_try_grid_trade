@@ -271,11 +271,17 @@ class OcoManagement:
             print("######################saved")
 
             my_result = {"result": 1, "json_file_path": str_storePath, "json_file_name_without_suffix": str_now_time_tmp}
-
-        else:
+        #
+        elif response is not None and response.status_code != 200:
             # do nothing
-            logging.log(logging.INFO, "fail to place oco:",response)
-            logging.log(logging.INFO, "fail to place oco:",response.json())
+            logging.log(logging.INFO, "response wrong response number", response.status_code)
+            logging.log(logging.INFO, "response wrong response number", response.text)
+            #
+            my_result = {"result": -1, "json_file_path": None, "json_file_name_without_suffix": None}
+        #
+        elif response is None:
+            # do nothing
+            logging.log(logging.INFO, "response is none")
             #
             my_result = {"result": -1, "json_file_path": None, "json_file_name_without_suffix": None}
         #
