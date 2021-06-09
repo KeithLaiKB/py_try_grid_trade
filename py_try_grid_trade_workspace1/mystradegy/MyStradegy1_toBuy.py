@@ -2,6 +2,7 @@ import json
 import logging
 import math
 import time
+from decimal import Decimal
 
 from binance_leveraged_tokens.management import BlvtManagement
 from myoco.management import OcoManagement
@@ -144,8 +145,8 @@ class MyStradegy1_toBuy:
                     #
                     # 所以 0.23 * 51 = 11.73 < 12 不会超过 我的可用余额
                     #
-                    mycoin_quantity_tmp = round(mytotal_available/my_stopLimitPrice, myquantity_precision)
-                    mycoin_quantity     = mycoin_quantity_tmp - 1/(10**myquantity_precision)
+                    mycoin_quantity_tmp = Decimal(str(round(mytotal_available/my_stopLimitPrice, myquantity_precision)))
+                    mycoin_quantity     = mycoin_quantity_tmp - Decimal(str(1.0/(10**myquantity_precision)))
                     #
                     ###########################################################################
                     #
@@ -237,8 +238,8 @@ class MyStradegy1_toBuy:
                     #
                     # 所以 0.23 * 51 = 11.73 < 12 不会超过 我的可用余额
                     #
-                    mycoin_quantity_tmp = round(mytotal_available / my_stopLimitPrice, myquantity_precision)
-                    mycoin_quantity = mycoin_quantity_tmp - 1 / (10 ** myquantity_precision)
+                    mycoin_quantity_tmp = Decimal(str(round(mytotal_available/my_stopLimitPrice, myquantity_precision)))
+                    mycoin_quantity     = mycoin_quantity_tmp - Decimal(str(1.0/(10**myquantity_precision)))
                     ###########################################################################
                     ############## 获取这个币 已经下的订单(这个策略中 针对这个币 只做一个订单) #######################
                     OcoManagement.getNowAllOcoList()
